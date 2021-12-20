@@ -18,7 +18,7 @@ import json
 #IMPORTANTE -> il bot va in fase "cycling" e il database si resetta, informarsi per MySQL o per https://jsonbin.io/ (per creare il database) e Amazon RDS (per hostare il database)
 
 
-bot_token = "1317537057:AAE-qyeGhXmzsMo7_iUuwvLcwoegEGxCT3U" #https://api.telegram.org/bot1080491803:AAHdvpyJUQLoJqeJDzz1K3s5x-1SpmQ0atE/getUpdates
+bot_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX" #https://api.telegram.org/bot1080491803:AAHdvpyJUQLoJqeJDzz1K3s5x-1SpmQ0atE/getUpdates
 bot = telebot.TeleBot(token = bot_token)
 server = Flask(__name__)
 
