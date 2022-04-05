@@ -14,11 +14,7 @@ import telepot
 import time
 import json
 
-#IMPORTANTE -> in caso di malfunzionamenti controllare che la struttura HTML dei prodotti eBay sia sempre uguale, in caso contrario riaddattare la parte in bs4
-#IMPORTANTE -> il bot va in fase "cycling" e il database si resetta, informarsi per MySQL o per https://jsonbin.io/ (per creare il database) e Amazon RDS (per hostare il database)
-
-
-bot_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX" #https://api.telegram.org/bot1080491803:AAHdvpyJUQLoJqeJDzz1K3s5x-1SpmQ0atE/getUpdates
+bot_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 bot = telebot.TeleBot(token = bot_token)
 server = Flask(__name__)
 
@@ -30,7 +26,7 @@ json_data = json.load(open("product.json"))
 def upload_json_file():
     url = "https://api.jsonbin.io/b/5f38dedbaf209d1016bc6ea3"
     headers = {"secret-key": "$2b$10$wpEWftP/FgAhxd1Q8aByBOPKCbWvyUyNiSQgyIrcYuC6OwB4Au57G", "versioning": "false"} 
-    json_data = json.load(open("product.json"))  #capire perchè il file JSON non viene uploudato
+    json_data = json.load(open("product.json"))
     res = requests.put(url, json=json_data, headers=headers)
 
     Timer(43200, upload_json_file).start()
@@ -41,7 +37,7 @@ upload_json_file()
 def get_json_file():
 	json_file = json.load(open("product.json"))
 	if len(str(json_file)) <= 744:
-		url = "https://api.jsonbin.io/b/5f38dedbaf209d1016bc6ea3/latest" #/latest dopo il bin_id per ottenere l'ultima versione uploudata
+		url = "https://api.jsonbin.io/b/5f38dedbaf209d1016bc6ea3/latest"
 		headers = {"secret-key": "$2b$10$wpEWftP/FgAhxd1Q8aByBOPKCbWvyUyNiSQgyIrcYuC6OwB4Au57G", "versioning": "false"}
 		res = requests.get(url, headers=headers)
 		data = json.loads(res.text)
@@ -57,7 +53,7 @@ def send_welcome(message):
 	bot.send_message(message.from_user.id, "Benvenuto! Io sono EbayPrices e posso aiutarti a tracciare i prezzi dei prodotti eBay che ti interessano. Inviami l'indirizzo link di un prodotto eBay per iniziare!", parse_mode = "HTML")
 
 
-@bot.message_handler(commands = ["help"])  #Scrivere la sezione help
+@bot.message_handler(commands = ["help"])
 def send_help(message):
 	bot.send_message(message.from_user.id, "Ciao, io sono EbayPrices e posso aiutarti a tenere traccia dei prodotti eBay che ti interessano, quando un prodotto cambia di prezzo verrai informato tramite un messaggio" + "\n\n" + "Usa /start per iniziare ad usare EbayPrices" + "\nUsa /help per ottenere informazioni utili riguardanti il bot" + "\nUsa /list per ottenere la lista dei prodotti che stai tracciando" + "\nUsa /delete per eliminare i prodotti che vuoi smettere di tracciare" + "\n\nSe trovi un bug segnalalo a @Giorgio_Papini", parse_mode = "HTML")
 
@@ -108,7 +104,7 @@ def send_about(message):
 
 
 @bot.message_handler(commands = ["list"]) 
-def send_list(message):  #Se due utenti inseriscono lo stesso prodotto il num_of_prud si breakka
+def send_list(message):
 	user_id = message.from_user.id
 	user_products = db.search(User.User_id == str(user_id))
 	with open("product.json", "r") as jsonFile:
